@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ChowCrown Vote Card — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --coral:     #D4621A;
+    --charcoal:  #1A1A1A;
+    --offwhite:  #F7F6F3;
+    --mustard:   #E8C98A;
+    --mint:      #3D6B2A;
+    --card-w:    3.5in;
+    --card-h:    2in;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #E8E6E1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+    gap: 0;
+  }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    max-width: 960px;
+    background: var(--charcoal);
+    color: #fff;
+    border-radius: 16px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .toolbar-left h1 { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+  .toolbar-left p  { font-size: 12px; opacity: 0.45; margin-top: 2px; }
+  .btn-print {
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+  }
+  .btn-print:hover { opacity: 0.88; }
+
+  /* ── Layout ── */
+  .cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .card-set {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+  }
+  .card-pair {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-side-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #aaa;
+  }
+
+  /* ── Card base (screen) ── */
+  .card {
+    width: calc(var(--card-w) * 1.6);
+    height: calc(var(--card-h) * 1.6);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12);
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════════════
+     FRONT — dark charcoal with coral accents
+     ══════════════════════════════════════════ */
+  .card-front {
+    background: var(--charcoal);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 22px 26px 20px;
+  }
+
+  /* Top row: logo + crown icon */
+  .front-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .front-logo {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .front-logo-icon {
+    width: 26px;
+    height: 26px;
+    color: var(--coral);
+  }
+  .front-logo-text {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .front-logo-text span {
+    color: var(--coral);
+  }
+  .front-badge {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: rgba(212, 98, 26, 0.12);
+    border: 1px solid rgba(212, 98, 26, 0.3);
+    border-radius: 20px;
+    padding: 3px 9px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--coral);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.45; transform: scale(0.85); }
+  }
+
+  /* Middle: headline */
+  .front-middle {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .front-eyebrow {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(232, 201, 138, 0.7);
+    margin-bottom: 5px;
+  }
+  .front-headline {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .front-headline span { color: var(--coral); }
+
+  /* Bottom: restaurant + divider */
+  .front-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .front-restaurant {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+  .front-restaurant strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.04em;
+    margin-top: 1px;
+  }
+  .front-competition {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    opacity: 0.8;
+  }
+
+  /* Decorative corner accent */
+  .front-corner {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    opacity: 0.05;
+  }
+
+  /* ══════════════════════════════════════════
+     BACK — off-white / clean
+     ══════════════════════════════════════════ */
+  .card-back {
+    background: var(--offwhite);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px 16px;
+  }
+
+  .back-top {
+    text-align: center;
+  }
+  .back-eyebrow {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .back-headline {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: 0.01em;
+  }
+
+  .back-qr-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* QR placeholder */
+  .qr-box {
+    width: 78px;
+    height: 78px;
+    border: 2px solid var(--charcoal);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .qr-box svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Steps */
+  .back-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .back-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+  }
+  .step-num {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    font-size: 7px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.5px;
+  }
+  .step-text {
+    font-size: 8.5px;
+    font-weight: 600;
+    color: var(--charcoal);
+    line-height: 1.35;
+  }
+  .step-text span {
+    display: block;
+    font-size: 7.5px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 1px;
+  }
+
+  .back-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(26,26,26,0.08);
+    padding-top: 9px;
+  }
+  .back-footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.4;
+  }
+  .back-footer-logo svg {
+    width: 12px;
+    height: 12px;
+  }
+  .back-footer-logo-text {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: 0.03em;
+  }
+  .back-disclaimer {
+    font-size: 6.5px;
+    color: #aaa;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  /* ── Print Styles ── */
+  @page {
+    size: 3.5in 2in;
+    margin: 0;
+  }
+  @media print {
+    body {
+      background: transparent;
+      padding: 0;
+      display: block;
+    }
+    .toolbar, .card-label, .card-side-label, .cards-wrapper, .card-pair, .card-wrapper { all: unset; }
+    .card {
+      width: 3.5in;
+      height: 2in;
+      border-radius: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+    .card:last-child { page-break-after: avoid; }
+    .toolbar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <h1>ChowCrown Vote Card</h1>
+    <p>Demo — 3.5 × 2 in business card format</p>
+  </div>
+  <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<div class="cards-wrapper">
+  <div class="card-set">
+    <div class="card-label">Vote Card</div>
+    <div class="card-pair">
+
+      <!-- FRONT -->
+      <div class="card-wrapper">
+        <div class="card-side-label">Front</div>
+        <div class="card card-front">
+
+          <div class="front-top">
+            <div class="front-logo">
+              <!-- Crown SVG -->
+              <svg class="front-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 20h20"/>
+                <path d="M5 20V10l7-7 7 7v10"/>
+                <path d="M9 20v-5h6v5"/>
+              </svg>
+              <span class="front-logo-text">Chow<span>Crown</span></span>
+            </div>
+            <div class="front-badge">
+              <div class="live-dot"></div>
+              Live Competition
+            </div>
+          </div>
+
+          <div class="front-middle">
+            <div class="front-eyebrow">Congratulations</div>
+            <div class="front-headline">
+              You've been<br>selected<br>to <span>vote.</span>
+            </div>
+          </div>
+
+          <div class="front-bottom">
+            <div class="front-restaurant">
+              Competing at
+              <strong>Burger Lords</strong>
+            </div>
+            <div class="front-competition">Burger Crown</div>
+          </div>
+
+          <!-- Decorative corner -->
+          <svg class="front-corner" viewBox="0 0 80 80" fill="currentColor" style="color:#fff;">
+            <path d="M80 80 L0 80 L80 0 Z"/>
+          </svg>
+
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-wrapper">
+        <div class="card-side-label">Back</div>
+        <div class="card card-back">
+
+          <div class="back-top">
+            <div class="back-eyebrow">Scan &amp; Rate</div>
+            <div class="back-headline">Your vote shapes the leaderboard</div>
+          </div>
+
+          <div class="back-qr-area">
+            <!-- QR Code placeholder SVG pattern -->
+            <div class="qr-box">
+              <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <!-- Top-left finder pattern -->
+                <rect x="1" y="1" width="7" height="7" fill="#1A1A1A"/>
+                <rect x="2" y="2" width="5" height="5" fill="white"/>
+                <rect x="3" y="3" width="3" height="3" fill="#1A1A1A"/>
+                <!-- Top-right finder pattern -->
+                <rect x="13" y="1" width="7" height="7" fill="#1A1A1A"/>
+                <rect x="14" y="2" width="5" height="5" fill="white"/>
+                <rect x="15" y="3" width="3" height="3" fill="#1A1A1A"/>
+                <!-- Bottom-left finder pattern -->
+                <rect x="1" y="13" width="7" height="7" fill="#1A1A1A"/>
+                <rect x="2" y="14" width="5" height="5" fill="white"/>
+                <rect x="3" y="15" width="3" height="3" fill="#1A1A1A"/>
+                <!-- Data modules (random-looking pattern) -->
+                <rect x="9" y="1" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="11" y="1" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="9" y="3" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="9" y="5" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="11" y="5" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="9" y="7" width="1" height="2" fill="#1A1A1A"/>
+                <rect x="11" y="7" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="1" y="9" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="5" y="9" width="1" height="2" fill="#1A1A1A"/>
+                <rect x="7" y="9" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="11" y="9" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="13" y="9" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="17" y="9" width="1" height="2" fill="#1A1A1A"/>
+                <rect x="19" y="9" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="1" y="11" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="3" y="11" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="7" y="11" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="9" y="11" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="13" y="11" width="1" height="2" fill="#1A1A1A"/>
+                <rect x="15" y="11" width="3" height="1" fill="#1A1A1A"/>
+                <rect x="19" y="11" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="9" y="13" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="11" y="13" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="15" y="13" width="1" height="2" fill="#1A1A1A"/>
+                <rect x="17" y="13" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="19" y="13" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="9" y="15" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="13" y="15" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="17" y="15" width="1" height="2" fill="#1A1A1A"/>
+                <rect x="9" y="17" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="11" y="17" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="15" y="17" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="19" y="17" width="1" height="1" fill="#1A1A1A"/>
+                <rect x="9" y="19" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="13" y="19" width="2" height="1" fill="#1A1A1A"/>
+                <rect x="17" y="19" width="3" height="1" fill="#1A1A1A"/>
+              </svg>
+            </div>
+
+            <div class="back-steps">
+              <div class="back-step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                  Scan the QR code
+                  <span>Opens the rating page instantly</span>
+                </div>
+              </div>
+              <div class="back-step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                  Rate your experience
+                  <span>Score the dish across 6 criteria</span>
+                </div>
+              </div>
+              <div class="back-step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                  Shape the crown
+                  <span>Live leaderboard updates instantly</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="back-footer">
+            <div class="back-footer-logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 20h20"/><path d="M5 20V10l7-7 7 7v10"/><path d="M9 20v-5h6v5"/>
+              </svg>
+              <span class="back-footer-logo-text">ChowCrown</span>
+            </div>
+            <div class="back-disclaimer">One use per card<br>Single-use code</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

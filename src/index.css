@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fredoka", sans-serif;
+
+  /* Cream surface scale */
+  --color-page:    oklch(0.970 0.025 88);
+  --color-section: oklch(0.945 0.022 84);
+  --color-card:    oklch(0.915 0.020 80);
+  --color-overlay: oklch(0.875 0.018 76);
+
+  /* Maroon — exact brand swatch, used as mid-dark accent surface */
+  --color-maroon:  oklch(0.324 0.099 32.5);
+
+  /* Primary accent — #F15A29 */
+  --color-amber:      oklch(0.661 0.196 37);
+  --color-amber-soft: oklch(0.520 0.155 37);
+  --color-amber-glow: oklch(0.760 0.140 37);
+
+  /* Live indicator — green */
+  --color-live:     oklch(0.72 0.17 145);
+  --color-live-dim: oklch(0.58 0.14 145);
+
+  /* Additional fire accents — available as utilities */
+  --color-flame:   oklch(0.655 0.183 43.1);   /* #E8611A */
+  --color-crimson: oklch(0.416 0.148 26.6);   /* #8B1A1A */
+
+  /* Text hierarchy */
+  --color-fg:       oklch(0.13 0.025 35);
+  --color-fg-muted: oklch(0.46 0.015 42);
+  --color-fg-dim:   oklch(0.62 0.010 45);
+
+  /* Legacy brand aliases — old class references auto-remap to new palette */
+  --color-brand-coral:      oklch(0.655 0.183 43.1);  /* → flame  */
+  --color-brand-terracotta: oklch(0.655 0.183 43.1);  /* → flame  */
+  --color-brand-mustard:    oklch(0.842 0.168 90.4);  /* → golden */
+  --color-brand-mint:       oklch(0.842 0.168 90.4);  /* → golden */
+  --color-brand-sage:       oklch(0.670 0.145 90.4);  /* → golden-dim */
+  --color-brand-cream:      oklch(0.13 0.025 35);     /* → fg     */
+  --color-brand-offwhite:   oklch(0.945 0.022 84);    /* → section */
+  --color-brand-charcoal:   oklch(0.970 0.025 88);    /* → page   */
+
+  /* Semantic states */
+  --color-success: oklch(0.72 0.17 145);       /* green   */
+  --color-error:   oklch(0.560 0.175 25.0);   /* crimson-bright */
+  --color-warning: oklch(0.661 0.196 37);      /* amber   */
+  --color-info:    oklch(0.650 0.090 250.0);  /* muted blue — no fire equivalent */
+
+  /* Neutral scale (components) */
+  --color-neutral-50:  oklch(0.13 0.025 35);
+  --color-neutral-100: oklch(0.93 0.007 65);
+  --color-neutral-200: oklch(0.88 0.009 60);
+  --color-neutral-400: oklch(0.60 0.012 48);
+  --color-neutral-600: oklch(0.45 0.015 42);
+  --color-neutral-800: oklch(0.30 0.020 38);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-page text-fg font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans;
+    letter-spacing: -0.02em;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-section); }
+  ::-webkit-scrollbar-thumb { background: var(--color-card); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: oklch(0.82 0.008 55); }
+}
+
+/* Focus */
+*:focus-visible {
+  @apply outline-none ring-2 ring-amber/50 ring-offset-2 ring-offset-page;
+  border-radius: 0.5rem;
+}
+
+/* Navbar separator */
+.nav-border {
+  box-shadow: 0 1px 0 0 oklch(0.13 0.025 35 / 0.08);
+}
+
+/* Legacy card utility */
+.pro-card {
+  @apply bg-card border border-black/[0.07] rounded-2xl;
+}
+.soft-card {
+  @apply bg-card border border-black/[0.07] rounded-2xl;
+  box-shadow: 0 2px 12px oklch(0.13 0.025 35 / 0.08);
+}
+.soft-card-strong {
+  @apply bg-card border border-black/[0.10] rounded-2xl;
+  box-shadow: 0 4px 20px oklch(0.13 0.025 35 / 0.12);
+}
+
+/* Accent text — solid amber, never gradient */
+.gradient-text {
+  color: var(--color-amber);
+}
+
+/* Score button glow — amber ring */
+.score-active {
+  box-shadow: 0 0 0 1px var(--color-amber), 0 0 18px oklch(0.661 0.196 37 / 0.30);
+}
+
+/* Card hover — amber border glow */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px oklch(0.13 0.025 35 / 0.10), 0 0 0 1px oklch(0.661 0.196 37 / 0.22);
+  border-color: oklch(0.661 0.196 37 / 0.30);
+}
+
+/* Touch targets */
+.btn-touch {
+  @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+}
+
+/* Transitions */
+.transition-smooth {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile safe areas */
+.safe-top    { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Scrollbar hide */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* Fluid typography */
+.text-fluid-xs   { font-size: clamp(0.75rem,  2vw,   0.875rem); }
+.text-fluid-sm   { font-size: clamp(0.875rem, 2.5vw, 1rem); }
+.text-fluid-base { font-size: clamp(1rem,     3vw,   1.125rem); }
+.text-fluid-lg   { font-size: clamp(1.125rem, 3.5vw, 1.25rem); }
+.text-fluid-xl   { font-size: clamp(1.25rem,  4vw,   1.5rem); }
+.text-fluid-2xl  { font-size: clamp(1.5rem,   5vw,   2rem); }
+.text-fluid-3xl  { font-size: clamp(1.875rem, 6vw,   2.5rem); }
+.text-fluid-4xl  { font-size: clamp(2.25rem,  7vw,   3.25rem); }
+.text-fluid-5xl  { font-size: clamp(3rem,     8vw,   4.5rem); }
+.text-fluid-6xl  { font-size: clamp(3.5rem,   9vw,   6rem); }
+
+/* Loading skeleton */
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--color-card) 0%,
+    oklch(0.985 0.018 90) 50%,
+    var(--color-card) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Marquee / conveyor ticker */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100% / 6)); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+.animate-marquee:hover { animation-play-state: paused; }
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+@keyframes slide-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.animate-slide-up { animation: slide-up 0.4s ease-out; }
+
+@keyframes scan-line {
+  0%, 100% { top: 10%; }
+  50%       { top: 85%; }
+}
+.animate-scan-line { animation: scan-line 2s ease-in-out infinite; }
+
+/* Live dot pulse — golden */
+@keyframes live-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.5; }
+}
+.live-dot { animation: live-pulse 1.5s ease-in-out infinite; }
+
+/* Ambient glow behind amber CTA buttons */
+.amber-glow-shadow {
+  box-shadow: 0 0 24px oklch(0.661 0.196 37 / 0.35), 0 4px 12px oklch(0.13 0.025 35 / 0.10);
+}
+.amber-glow-shadow:hover {
+  box-shadow: 0 0 36px oklch(0.661 0.196 37 / 0.50), 0 6px 16px oklch(0.13 0.025 35 / 0.12);
+}
