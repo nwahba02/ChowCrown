@@ -26,7 +26,7 @@ if (isProd && !process.env.ADMIN_KEY) {
 }
 
 const app = express();
-const PORT = Number(process.env.API_PORT ?? 3001);
+const PORT = Number(process.env.PORT ?? process.env.API_PORT ?? 3001);
 
 // Security headers. CSP is omitted here — the React build uses inline scripts
 // (Vite injects them) that would require per-build nonces to whitelist properly.
