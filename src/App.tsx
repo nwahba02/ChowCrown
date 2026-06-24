@@ -35,6 +35,12 @@ import { Routes, Route, Navigate, useNavigate, useLocation, useParams, Link } fr
 import type { ApiCompetition, ApiRestaurant } from './types';
 import { Button, Input, ToastProvider, useToast, ErrorBoundary } from './components/ui';
 import { ScrollToTop } from './components/layout';
+
+function ScrollToTopOnNav() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 import { useResponsive } from './hooks';
 import AboutImage from './public/About.png';
 
@@ -3325,6 +3331,7 @@ function AppInner() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
+            <ScrollToTopOnNav />
             <Routes location={location}>
               <Route path="/" element={<LandingPage setActivePage={setActivePage} />} />
               <Route path="/competitions" element={<CompetitionsPage />} />
