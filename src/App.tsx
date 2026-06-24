@@ -39,6 +39,14 @@ import { useResponsive } from './hooks';
 import AboutImage from './public/About.png';
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1700513971603-eda40374ba0a?auto=format&fit=crop&w=800&q=60';
+const BURGER_IMAGES = [
+  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1547584370-2cc96b4c87af?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1596956470007-2bf6095e7e16?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1551782450-17144efb9c50?auto=format&fit=crop&w=800&q=80',
+  'https://images.unsplash.com/photo-1586816001966-79b736744398?auto=format&fit=crop&w=800&q=80',
+];
 const MotionLink = motion(Link);
 
 // --- Navbar ---
@@ -261,7 +269,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
     { name: 'Burger Crown', category: 'Burgers', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80', status: 'live' as const },
     { name: 'Pizza Crown', category: 'Pizza', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80', status: 'soon' as const, eta: 'Q3 2026' },
     { name: 'Taco Crown', category: 'Tacos', image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80', status: 'soon' as const, eta: 'Q4 2026' },
-    { name: 'Dessert Crown', category: 'Desserts', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80', status: 'soon' as const, eta: '2027' },
+    { name: 'Dessert Crown', category: 'Desserts', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80', status: 'soon' as const, eta: 'Q4 2026' },
   ];
 
   const steps = [
@@ -449,7 +457,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
             onClick={() => setActivePage('competitions')}
           >
             <div className="rounded-2xl overflow-hidden border border-black/[0.06]">
-              <div className="overflow-hidden" style={{ aspectRatio: '21/8' }}>
+              <div className="overflow-hidden aspect-[4/3] sm:aspect-[21/8]">
                 <img
                   src={liveComp.image}
                   alt={`${liveComp.name} — the live competition dish`}
@@ -457,7 +465,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
                   loading="lazy"
                 />
               </div>
-              <div className="bg-card px-7 py-5 flex items-center justify-between gap-6">
+              <div className="bg-card px-5 sm:px-7 py-4 sm:py-5 flex items-center justify-between gap-6">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="inline-flex items-center gap-1.5 bg-live/[0.12] border border-live/[0.25] text-live text-[11px] font-bold px-2.5 py-1 rounded-full">
@@ -480,8 +488,8 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
             </div>
           </motion.div>
 
-          {/* Upcoming — 3 columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Upcoming — 3 columns (compact on mobile) */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             {upcomingComps.map((comp, i) => (
               <motion.div
                 key={i}
@@ -491,7 +499,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
                 transition={{ duration: 0.4, delay: i * 0.08 }}
               >
                 <div className="rounded-xl overflow-hidden border border-black/[0.06] bg-card">
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative aspect-square sm:aspect-[4/3] overflow-hidden">
                     <img
                       src={comp.image}
                       alt={comp.name}
@@ -500,13 +508,13 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
                     />
                     <div className="absolute inset-0" style={{ backgroundColor: 'rgb(128 128 128 / 0.6)', mixBlendMode: 'color' }} />
                   </div>
-                  <div className="px-4 py-3.5">
-                    <div className="flex items-center justify-between mb-1">
+                  <div className="px-2 py-2 sm:px-4 sm:py-3.5">
+                    <div className="hidden sm:flex items-center justify-between mb-1">
                       <p className="text-amber text-[10px] font-bold uppercase tracking-widest">{comp.category}</p>
                       <span className="text-fg-dim text-[10px] font-semibold uppercase tracking-wide">Coming Soon</span>
                     </div>
-                    <h3 className="font-bold text-fg leading-tight text-sm">{comp.name}</h3>
-                    {'eta' in comp && <p className="text-fg-dim text-xs font-medium mt-0.5">{comp.eta}</p>}
+                    <h3 className="font-bold text-fg leading-tight text-[11px] sm:text-sm">{comp.name}</h3>
+                    {'eta' in comp && <p className="text-fg-dim text-[10px] sm:text-xs font-medium mt-0.5">{comp.eta}</p>}
                   </div>
                 </div>
               </motion.div>
@@ -698,12 +706,13 @@ const CompetitionsPage = () => {
 
   useEffect(() => {
     fetch('/api/competitions')
-      .then((r) => r.json())
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then((data: { competitions: ApiCompetition[] }) => {
-        setCompetitions(data.competitions);
-        if (data.competitions.length > 0) {
-          setSelectedCity(data.competitions[0].city);
-          setSelectedQuarter(data.competitions[0].quarter);
+        const list = data.competitions ?? [];
+        setCompetitions(list);
+        if (list.length > 0) {
+          setSelectedCity(list[0].city);
+          setSelectedQuarter(list[0].quarter);
         }
         setStatus('loaded');
       })
@@ -937,73 +946,81 @@ const CompetitionDetailsPage = () => {
   const onVote = (restaurant: ApiRestaurant) => navigate('/scan', { state: { competition, restaurant } });
 
   return (
-    <div className="pt-20 md:pt-24 pb-24 md:pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="pt-8 md:pt-10">
+    <div className="pb-24 md:pb-16">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Banner — full bleed on mobile, rounded on md+ */}
+        <motion.div
+          className="relative overflow-hidden md:rounded-2xl md:mx-6 lg:mx-8 md:mt-6"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="aspect-[4/3] sm:aspect-[16/7] md:aspect-[3/1] mt-16 md:mt-0">
+            <img
+              src={competition.image || FALLBACK_IMAGE}
+              alt={competition.title}
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10" />
+          </div>
+
+          {/* Back button — overlaid top-left */}
           <button
             onClick={onBack}
-            className="inline-flex items-center text-sm text-fg-muted hover:text-fg font-medium mb-8 transition-colors group"
+            className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-black/30 backdrop-blur-sm text-white/90 hover:text-white text-sm font-medium px-3 py-1.5 rounded-full transition-colors"
           >
-            <ArrowRight className="rotate-180 mr-1.5 group-hover:-translate-x-0.5 transition-transform" size={15} />
-            All Competitions
+            <ArrowRight className="rotate-180" size={14} />
+            Back
           </button>
 
-          {/* Banner */}
-          <motion.div
-            className="relative rounded-2xl overflow-hidden mb-10"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className="aspect-[21/9] md:aspect-[3/1]">
-              <img
-                src={competition.image || FALLBACK_IMAGE}
-                alt={competition.title}
-                className="w-full h-full object-cover"
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8">
-              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="bg-black/15 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full">
-                      {competition.category}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 bg-live/80 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white live-dot" />
-                      Live Now
-                    </span>
-                  </div>
-                  <h1 className="text-2xl md:text-4xl font-bold text-white tracking-tight">{competition.title}</h1>
-                  <p className="text-sm text-white/50 mt-1.5 hidden md:block max-w-lg">{competition.description}</p>
+          {/* Text overlay — bottom */}
+          <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+            <div className="flex items-end justify-between gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-2.5">
+                  <span className="bg-black/20 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">
+                    {competition.category}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 bg-live/80 backdrop-blur-sm text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white live-dot" />
+                    Live Now
+                  </span>
                 </div>
-                <div className="text-left md:text-right flex-shrink-0">
-                  <div className="text-2xl font-bold text-white">{status === 'loaded' ? restaurants.length : '—'}</div>
-                  <div className="text-xs text-white/40 font-medium uppercase tracking-wider">Competing</div>
-                </div>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
+                  {competition.title}
+                </h1>
+                <p className="text-sm text-white/50 mt-1.5 hidden md:block max-w-lg">{competition.description}</p>
+              </div>
+              <div className="text-right flex-shrink-0">
+                <div className="text-2xl font-bold text-white">{status === 'loaded' ? restaurants.length : '—'}</div>
+                <div className="text-[10px] text-white/40 font-semibold uppercase tracking-wider">Competing</div>
               </div>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
+        <div className="px-4 sm:px-6 lg:px-8 pt-8">
           {/* Section header */}
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold">Participating Restaurants</h2>
-            <span className="text-xs text-fg-muted font-medium flex items-center gap-1.5">
-              <ShieldCheck size={12} />
-              Results revealed at end of competition
-            </span>
+          <div className="mb-6">
+            <h2 className="text-3xl sm:text-4xl font-bold text-fg tracking-tight">Participating Restaurants</h2>
+            <div className="flex items-center gap-1.5 mt-2">
+              <ShieldCheck size={13} className="text-fg-muted" />
+              <span className="text-xs text-fg-muted font-medium">Results revealed at end of competition</span>
+            </div>
           </div>
 
           {status === 'loading' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
               {[0, 1, 2].map((i) => (
-                <div key={i} className="bg-card rounded-2xl border border-black/[0.07] overflow-hidden">
-                  <div className="aspect-[4/3] skeleton" />
-                  <div className="p-4 space-y-3">
+                <div key={i} className="bg-card rounded-xl sm:rounded-2xl border border-black/[0.07] overflow-hidden">
+                  <div className="aspect-[16/9] sm:aspect-[4/3] skeleton" />
+                  <div className="p-3 sm:p-4 space-y-2">
                     <div className="h-4 skeleton rounded w-2/3" />
-                    <div className="h-9 skeleton rounded" />
+                    <div className="h-3 skeleton rounded w-1/2" />
+                    <div className="h-3 skeleton rounded w-1/3" />
+                    <div className="h-8 skeleton rounded hidden sm:block mt-1" />
                   </div>
                 </div>
               ))}
@@ -1017,44 +1034,54 @@ const CompetitionDetailsPage = () => {
           )}
 
           {status === 'loaded' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
               {restaurants.map((restaurant, i) => (
                 <motion.div
                   key={restaurant.id}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: i * 0.05 }}
-                  className="group bg-card rounded-2xl border border-black/[0.07] overflow-hidden hover:border-amber/[0.25] transition-all duration-200 card-hover"
+                  className="group bg-card rounded-xl sm:rounded-2xl border border-black/[0.07] overflow-hidden hover:border-amber/[0.25] transition-all duration-200 card-hover cursor-pointer"
+                  onClick={() => onVote(restaurant)}
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative aspect-[16/9] sm:aspect-[4/3] overflow-hidden">
                     <img
-                      src={restaurant.image || FALLBACK_IMAGE}
+                      src={restaurant.image || BURGER_IMAGES[i % BURGER_IMAGES.length]}
                       alt={restaurant.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-fg mb-0.5">{restaurant.name}</h3>
-                    {restaurant.dish && (
-                      <p className="text-xs font-medium text-amber mb-1">"{restaurant.dish}"</p>
-                    )}
-                    {restaurant.location && (
-                      <p className="text-xs text-fg-dim mb-3 flex items-center gap-1">
-                        <MapPin size={11} />
-                        {restaurant.location}
-                      </p>
-                    )}
-                    <Button
-                      onClick={() => onVote(restaurant)}
-                      variant="primary"
-                      fullWidth
-                      size="md"
-                      icon={QrCode}
-                      iconPosition="left"
-                    >
-                      Vote for This Dish
-                    </Button>
+                  <div className="p-3 sm:p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <h3 className="font-semibold text-fg text-sm sm:text-base leading-tight">{restaurant.name}</h3>
+                        {restaurant.dish && (
+                          <p className="text-xs font-medium text-amber mt-0.5">"{restaurant.dish}"</p>
+                        )}
+                        {restaurant.location && (
+                          <p className="text-xs text-fg-dim flex items-center gap-1 mt-0.5">
+                            <MapPin size={10} />
+                            {restaurant.location}
+                          </p>
+                        )}
+                      </div>
+                      <span className="sm:hidden flex-shrink-0 inline-flex items-center bg-amber/10 text-amber text-[11px] font-bold px-2 py-1 rounded-full mt-0.5">
+                        Vote
+                      </span>
+                    </div>
+                    <div className="hidden sm:block mt-3">
+                      <Button
+                        onClick={(e) => { e.stopPropagation(); onVote(restaurant); }}
+                        variant="primary"
+                        fullWidth
+                        size="md"
+                        icon={QrCode}
+                        iconPosition="left"
+                      >
+                        Vote for This Dish
+                      </Button>
+                    </div>
                   </div>
                 </motion.div>
               ))}
