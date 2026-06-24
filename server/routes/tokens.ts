@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { db } from '../db.js';
 import { asyncRoute } from '../middleware.js';
+import { timingSafeEqual } from '../security.js';
 
 const router = Router();
 
@@ -13,7 +14,8 @@ const isProd = process.env.NODE_ENV === 'production';
 function checkAdmin(req: Request, res: Response): boolean {
   const adminKey = process.env.ADMIN_KEY;
   if (isProd || adminKey) {
-    if (req.headers['x-admin-key'] !== adminKey) {
+    const provided = req.headers['x-admin-key'];
+    if (typeof provided !== 'string' || !adminKey || !timingSafeEqual(provided, adminKey)) {
       res.status(401).json({ error: 'Unauthorized' });
       return false;
     }
@@ -201,9 +203,9 @@ router.post('/generate-sheet', asyncRoute(async (req: Request, res: Response) =>
 
 // POST /api/tokens/redeem
 router.post('/redeem', asyncRoute(async (req: Request, res: Response) => {
-  const { token } = req.body as { token: string };
+  const token = req.body?.token;
 
-  if (!token) {
+  if (!token || typeof token !== 'string') {
     res.status(400).json({ ok: false, error: 'token is required' });
     return;
   }
