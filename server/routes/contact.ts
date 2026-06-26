@@ -55,6 +55,7 @@ router.post('/', asyncRoute(async (req: Request, res: Response) => {
     return;
   }
 
+  console.log('[contact] attempting email send to', RECIPIENT);
   resend.emails.send({
     from: 'Chow Crown <onboarding@resend.dev>',
     to: RECIPIENT,
@@ -70,10 +71,14 @@ router.post('/', asyncRoute(async (req: Request, res: Response) => {
       <hr style="margin:16px 0;border:none;border-top:1px solid #eee"/>
       <p style="font-family:sans-serif;font-size:14px;white-space:pre-wrap;color:#222">${message.trim().replace(/</g, '&lt;')}</p>
     `,
-  }).then(({ error }) => {
-    if (error) console.error('[contact] Resend error:', error.message);
+  }).then(({ data, error }) => {
+    if (error) {
+      console.error('[contact] Resend error:', JSON.stringify(error));
+    } else {
+      console.log('[contact] email sent, id:', data?.id);
+    }
   }).catch((err: unknown) => {
-    console.error('[contact] Resend failed:', err instanceof Error ? err.message : err);
+    console.error('[contact] Resend threw:', err instanceof Error ? err.message : err);
   });
 }));
 
