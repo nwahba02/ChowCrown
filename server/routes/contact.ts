@@ -55,7 +55,9 @@ router.post('/', asyncRoute(async (req: Request, res: Response) => {
   res.json({ ok: true });
 
   const transporter = createTransporter();
-  if (transporter) {
+  if (!transporter) {
+    console.warn('[contact] GMAIL_USER or GMAIL_APP_PASSWORD not set — email notification skipped');
+  } else {
     transporter.sendMail({
       from: `"Chow Crown Contact" <${process.env.GMAIL_USER}>`,
       to: RECIPIENT,
@@ -84,5 +86,6 @@ router.post('/', asyncRoute(async (req: Request, res: Response) => {
     });
   }
 }));
+
 
 export default router;
