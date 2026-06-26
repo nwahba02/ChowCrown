@@ -50,9 +50,13 @@ router.post('/', asyncRoute(async (req: Request, res: Response) => {
     message: message.trim(),
   });
 
+  // Respond immediately — email is best-effort and must not block the request.
+  // Railway and similar hosts often block outbound SMTP, which causes sendMail to hang forever.
+  res.json({ ok: true });
+
   const transporter = createTransporter();
   if (transporter) {
-    await transporter.sendMail({
+    transporter.sendMail({
       from: `"Chow Crown Contact" <${process.env.GMAIL_USER}>`,
       to: RECIPIENT,
       replyTo: email.trim(),
@@ -75,10 +79,10 @@ router.post('/', asyncRoute(async (req: Request, res: Response) => {
         <hr style="margin:16px 0;border:none;border-top:1px solid #eee"/>
         <p style="font-family:sans-serif;font-size:14px;white-space:pre-wrap;color:#222">${message.trim().replace(/</g, '&lt;')}</p>
       `,
+    }).catch((err: unknown) => {
+      console.error('[contact] sendMail failed:', err instanceof Error ? err.message : err);
     });
   }
-
-  res.json({ ok: true });
 }));
 
 export default router;
