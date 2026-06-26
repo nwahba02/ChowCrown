@@ -28,6 +28,10 @@ if (isProd && !process.env.ADMIN_KEY) {
 const app = express();
 const PORT = Number(process.env.PORT ?? process.env.API_PORT ?? 3001);
 
+// Railway (and most PaaS) sit behind a reverse proxy that sets X-Forwarded-For.
+// Without this, express-rate-limit throws ERR_ERL_UNEXPECTED_X_FORWARDED_FOR.
+app.set('trust proxy', 1);
+
 // Security headers. CSP is omitted here — the React build uses inline scripts
 // (Vite injects them) that would require per-build nonces to whitelist properly.
 app.use(helmet({ contentSecurityPolicy: false }));
