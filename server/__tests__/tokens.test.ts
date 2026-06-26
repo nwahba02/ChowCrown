@@ -89,7 +89,7 @@ describe('POST /api/tokens/generate', () => {
   it('returns 400 when competitionId is not found', async () => {
     vi.mocked(db.competitions.findById).mockResolvedValue(null);
     vi.mocked(db.restaurants.findById).mockResolvedValue({
-      id: 'r1', name: 'Burger Barn', competitionId: 'c1',
+      id: 'r1', name: 'Burger Barn', dish: '', competitionId: 'c1',
       location: 'Downtown', image: '', active: true,
     });
 
@@ -104,7 +104,7 @@ describe('POST /api/tokens/generate', () => {
       quarter: 'Q1 2026', description: '', image: '', active: true, createdAt: '',
     });
     vi.mocked(db.restaurants.findById).mockResolvedValue({
-      id: 'r1', name: 'Burger Barn', competitionId: 'other-competition',
+      id: 'r1', name: 'Burger Barn', dish: '', competitionId: 'other-competition',
       location: 'Downtown', image: '', active: true,
     });
 
@@ -119,7 +119,7 @@ describe('POST /api/tokens/generate', () => {
       quarter: 'Q1 2026', description: '', image: '', active: true, createdAt: '',
     });
     vi.mocked(db.restaurants.findById).mockResolvedValue({
-      id: 'r1', name: 'Burger Barn', competitionId: 'c1',
+      id: 'r1', name: 'Burger Barn', dish: '', competitionId: 'c1',
       location: 'Downtown', image: '', active: true,
     });
     vi.mocked(db.tokens.create).mockResolvedValue({

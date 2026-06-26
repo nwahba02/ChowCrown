@@ -19,11 +19,11 @@ async function seed() {
 
   // Restaurants
   const restaurantDefs = [
-    { name: 'Goldburger', location: 'West Hollywood', image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Burgerlords', location: 'Chinatown', image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Mírate', location: 'Los Feliz', image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Bossa Nova Burger Bar', location: 'Silver Lake', image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Irv\'s Burgers', location: 'West Hollywood', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Goldburger', dish: 'The Gold Standard', location: 'West Hollywood', image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Burgerlords', dish: 'Classic Smash', location: 'Chinatown', image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Mírate', dish: 'Birria Burger', location: 'Los Feliz', image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Bossa Nova Burger Bar', dish: 'Brazilian BBQ Burger', location: 'Silver Lake', image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Irv\'s Burgers', dish: 'Irv\'s Original', location: 'West Hollywood', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80' },
   ];
 
   const restaurants = [];
