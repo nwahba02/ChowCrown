@@ -8,7 +8,7 @@ const router = Router();
 const VALID_SUBJECTS = new Set(['General Inquiry', 'Restaurant Partnership', 'Technical Support', 'Press & Media']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const RECIPIENT = 'thechowcrown@gmail.com';
+const RECIPIENT = 'nwahba02@gmail.com';
 
 function getResend(): Resend | null {
   const key = process.env.RESEND_API_KEY;
