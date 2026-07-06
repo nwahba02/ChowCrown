@@ -90,7 +90,7 @@ describe('POST /api/tokens/generate', () => {
     vi.mocked(db.competitions.findById).mockResolvedValue(null);
     vi.mocked(db.restaurants.findById).mockResolvedValue({
       id: 'r1', name: 'Burger Barn', dish: '', competitionId: 'c1',
-      location: 'Downtown', image: '', active: true,
+      location: 'Downtown', city: 'LA', description: '', image: '', active: true,
     });
 
     const res = await request.post('/api/tokens/generate').send({ competitionId: 'c1', restaurantId: 'r1' });
@@ -105,7 +105,7 @@ describe('POST /api/tokens/generate', () => {
     });
     vi.mocked(db.restaurants.findById).mockResolvedValue({
       id: 'r1', name: 'Burger Barn', dish: '', competitionId: 'other-competition',
-      location: 'Downtown', image: '', active: true,
+      location: 'Downtown', city: 'LA', description: '', image: '', active: true,
     });
 
     const res = await request.post('/api/tokens/generate').send({ competitionId: 'c1', restaurantId: 'r1' });
@@ -120,7 +120,7 @@ describe('POST /api/tokens/generate', () => {
     });
     vi.mocked(db.restaurants.findById).mockResolvedValue({
       id: 'r1', name: 'Burger Barn', dish: '', competitionId: 'c1',
-      location: 'Downtown', image: '', active: true,
+      location: 'Downtown', city: 'LA', description: '', image: '', active: true,
     });
     vi.mocked(db.tokens.create).mockResolvedValue({
       id: 'tok1', competitionId: 'c1', restaurantId: 'r1',

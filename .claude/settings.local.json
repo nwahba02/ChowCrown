@@ -46,7 +46,32 @@
       "Bash(git commit -m ' *)",
       "Bash(git remote *)",
       "Bash(git push *)",
-      "Bash(python -m json.tool)"
+      "Bash(python -m json.tool)",
+      "Bash(npm list *)",
+      "Skill(run)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(npx --yes playwright screenshot --help)",
+      "Bash(npx --yes playwright screenshot --wait-for-timeout 3000 --full-page \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\competition-page.png\")",
+      "Bash(npx --yes playwright install chromium)",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 3000 --full-page \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\competition-page.png\")",
+      "Bash(pkill -f \"vite --port=3000\")",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Get-CimInstance *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell(Stop-Process *)",
+      "WebFetch(domain:www.pexels.com)",
+      "Bash(python3 -c \"from PIL import Image; im=Image.open\\('cand_4315148.jpg'\\); print\\(im.size\\)\")",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-check.png\")",
+      "WebFetch(domain:api.openverse.org)",
+      "Read(//tmp/**)",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-check2.png\")",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-check3.png\")",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-fix-desktop.png\")",
+      "Bash(npx --yes playwright screenshot -b chromium --viewport-size \"390,844\" --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-fix-mobile.png\")",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-zoomout-desktop.png\")",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-contain.png\")",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-blurbg.png\")",
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-wider.png\")"
     ]
   }
 }

@@ -16,6 +16,8 @@ export interface ApiRestaurant {
   dish: string;
   competitionId: string;
   location: string;
+  city: string;
+  description: string;
   image: string;
   active: boolean;
 }

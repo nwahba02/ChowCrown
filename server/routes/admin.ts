@@ -50,6 +50,8 @@ router.post('/restaurants', asyncRoute(async (req: Request, res: Response) => {
   const competitionId = requireString(body.competitionId, 'competitionId');
   const location      = requireString(body.location,      'location');
   const dish          = optionalString(body.dish,         'dish') ?? '';
+  const city          = optionalString(body.city,         'city') ?? '';
+  const description   = optionalString(body.description,  'description') ?? '';
   const image         = optionalString(body.image,        'image') ?? '';
   const active        = body.active !== undefined ? (body.active === true) : true;
 
@@ -64,7 +66,7 @@ router.post('/restaurants', asyncRoute(async (req: Request, res: Response) => {
     return;
   }
 
-  const restaurant = await db.restaurants.create({ name, dish, competitionId, location, image, active });
+  const restaurant = await db.restaurants.create({ name, dish, competitionId, location, city, description, image, active });
   res.status(201).json({ restaurant });
 }));
 
@@ -115,13 +117,19 @@ router.patch('/restaurants/:id', asyncRoute(async (req: Request, res: Response) 
   const updates: Record<string, unknown> = {};
 
   const name          = optionalString(body.name,          'name');
+  const dish          = optionalString(body.dish,          'dish');
   const location      = optionalString(body.location,      'location');
+  const city          = optionalString(body.city,          'city');
+  const description   = optionalString(body.description,   'description');
   const image         = optionalString(body.image,         'image');
   const competitionId = optionalString(body.competitionId, 'competitionId');
   const active        = optionalBoolean(body.active,       'active');
 
   if (name          !== undefined) updates.name          = name;
+  if (dish          !== undefined) updates.dish          = dish;
   if (location      !== undefined) updates.location      = location;
+  if (city          !== undefined) updates.city          = city;
+  if (description   !== undefined) updates.description   = description;
   if (image         !== undefined) updates.image         = image;
   if (active        !== undefined) updates.active        = active;
   if (competitionId !== undefined) updates.competitionId = competitionId;

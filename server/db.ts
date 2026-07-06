@@ -78,6 +78,8 @@ export interface Restaurant {
   dish: string;
   competitionId: string;
   location: string; // neighborhood or address shown to voters
+  city: string;
+  description: string; // short blurb about the dish
   image: string;
   active: boolean;
 }
@@ -394,6 +396,8 @@ function docToRestaurant(doc: WithId<Document> | Record<string, unknown>): Resta
     dish:          str(d.dish),
     competitionId: str(d.competitionId),
     location:      str(d.location),
+    city:          str(d.city),
+    description:   str(d.description),
     image:         str(d.image),
     active:        bool(d.active, true),
   };

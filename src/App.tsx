@@ -957,16 +957,22 @@ const CompetitionDetailsPage = () => {
 
         {/* Banner — full bleed on mobile, rounded on md+ */}
         <motion.div
-          className="relative overflow-hidden md:rounded-2xl md:mx-6 lg:mx-8 md:mt-6"
+          className="relative overflow-hidden md:rounded-2xl md:mx-6 lg:mx-8 mt-20 md:mt-24"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="aspect-[4/3] sm:aspect-[16/7] md:aspect-[3/1] mt-16 md:mt-0">
+          <div className="relative aspect-[4/3] sm:aspect-[16/7] md:aspect-[3/1]">
+            <img
+              src={competition.image || FALLBACK_IMAGE}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl"
+            />
             <img
               src={competition.image || FALLBACK_IMAGE}
               alt={competition.title}
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-contain scale-150"
               loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10" />
@@ -1065,10 +1071,13 @@ const CompetitionDetailsPage = () => {
                         {restaurant.dish && (
                           <p className="text-xs font-medium text-amber mt-0.5">"{restaurant.dish}"</p>
                         )}
-                        {restaurant.location && (
-                          <p className="text-xs text-fg-dim flex items-center gap-1 mt-0.5">
+                        {restaurant.description && (
+                          <p className="text-xs text-fg-dim mt-1 line-clamp-2">{restaurant.description}</p>
+                        )}
+                        {(restaurant.location || restaurant.city) && (
+                          <p className="text-xs text-fg-dim flex items-center gap-1 mt-1">
                             <MapPin size={10} />
-                            {restaurant.location}
+                            {[restaurant.location, restaurant.city].filter(Boolean).join(', ')}
                           </p>
                         )}
                       </div>
@@ -2796,7 +2805,7 @@ const AdminRestaurantsTab = ({ adminKey }: { adminKey: string }) => {
   const [selectedCompId, setSelectedCompId] = useState('');
   const [restaurants, setRestaurants] = useState<ApiRestaurant[]>([]);
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ name: '', dish: '', location: '' });
+  const [form, setForm] = useState({ name: '', dish: '', location: '', city: '', description: '', image: '' });
   const [adding, setAdding] = useState(false);
   const [formError, setFormError] = useState('');
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
@@ -2828,12 +2837,16 @@ const AdminRestaurantsTab = ({ adminKey }: { adminKey: string }) => {
     try {
       const res = await fetch('/api/admin/restaurants', {
         method: 'POST', headers: h(),
-        body: JSON.stringify({ name: form.name, dish: form.dish, location: form.location, competitionId: selectedCompId }),
+        body: JSON.stringify({
+          name: form.name, dish: form.dish, location: form.location,
+          city: form.city, description: form.description, image: form.image,
+          competitionId: selectedCompId,
+        }),
       });
       if (res.ok) {
         const d = await res.json();
         setRestaurants((prev) => [...prev, d.restaurant]);
-        setForm({ name: '', dish: '', location: '' });
+        setForm({ name: '', dish: '', location: '', city: '', description: '', image: '' });
         setFormError('');
       } else {
         const d = await res.json();
@@ -2865,22 +2878,36 @@ const AdminRestaurantsTab = ({ adminKey }: { adminKey: string }) => {
 
       <div className="bg-card rounded-2xl p-5 border border-black/[0.07] shadow-sm mb-6">
         <h3 className="text-xs font-black uppercase tracking-widest text-fg-muted mb-4">Add Restaurant</h3>
-        <div className="flex gap-3 flex-wrap items-end">
-          <div className="flex-1 min-w-36">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
             <label className="block text-xs font-semibold text-fg-muted mb-1.5">Restaurant Name</label>
             <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} onKeyDown={(e) => e.key === 'Enter' && addRestaurant()} placeholder="e.g. Goldburger" className="w-full bg-section border border-black/[0.10] rounded-xl px-4 py-2.5 text-fg placeholder:text-fg-muted focus:border-amber outline-none" />
           </div>
-          <div className="flex-1 min-w-36">
+          <div>
             <label className="block text-xs font-semibold text-fg-muted mb-1.5">Competition Dish</label>
             <input value={form.dish} onChange={(e) => setForm((f) => ({ ...f, dish: e.target.value }))} onKeyDown={(e) => e.key === 'Enter' && addRestaurant()} placeholder="e.g. The Classic Smash Burger" className="w-full bg-section border border-black/[0.10] rounded-xl px-4 py-2.5 text-fg placeholder:text-fg-muted focus:border-amber outline-none" />
           </div>
-          <div className="flex-1 min-w-36">
+          <div>
             <label className="block text-xs font-semibold text-fg-muted mb-1.5">Location</label>
             <input value={form.location} onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))} onKeyDown={(e) => e.key === 'Enter' && addRestaurant()} placeholder="Neighborhood / address" className="w-full bg-section border border-black/[0.10] rounded-xl px-4 py-2.5 text-fg placeholder:text-fg-muted focus:border-amber outline-none" />
           </div>
+          <div>
+            <label className="block text-xs font-semibold text-fg-muted mb-1.5">City</label>
+            <input value={form.city} onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))} onKeyDown={(e) => e.key === 'Enter' && addRestaurant()} placeholder="e.g. Los Angeles" className="w-full bg-section border border-black/[0.10] rounded-xl px-4 py-2.5 text-fg placeholder:text-fg-muted focus:border-amber outline-none" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="block text-xs font-semibold text-fg-muted mb-1.5">Dish Image URL</label>
+            <input value={form.image} onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))} onKeyDown={(e) => e.key === 'Enter' && addRestaurant()} placeholder="https://..." className="w-full bg-section border border-black/[0.10] rounded-xl px-4 py-2.5 text-fg placeholder:text-fg-muted focus:border-amber outline-none" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="block text-xs font-semibold text-fg-muted mb-1.5">Description</label>
+            <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} placeholder="A short blurb about the burger" rows={2} className="w-full bg-section border border-black/[0.10] rounded-xl px-4 py-2.5 text-fg placeholder:text-fg-muted focus:border-amber outline-none resize-none" />
+          </div>
+        </div>
+        <div className="mt-3 flex items-center justify-between gap-3">
+          {formError ? <p className="text-sm text-red-500">{formError}</p> : <span />}
           <Button size="sm" icon={Plus} iconPosition="left" loading={adding} disabled={!selectedCompId} onClick={addRestaurant}>Add</Button>
         </div>
-        {formError && <p className="text-sm text-red-500 mt-2">{formError}</p>}
       </div>
 
       {loading ? (
@@ -2893,9 +2920,12 @@ const AdminRestaurantsTab = ({ adminKey }: { adminKey: string }) => {
           {restaurants.map((r) => (
             <div key={r.id} className="bg-card rounded-2xl px-5 py-3 flex items-center gap-3 border border-black/[0.07] shadow-sm">
               <div className="flex-1 min-w-0">
-                <span className="font-semibold text-fg">{r.name}</span>
-                {r.dish && <span className="text-xs text-amber font-medium ml-2">"{r.dish}"</span>}
-                <span className="text-xs text-fg-muted ml-2">{r.location}</span>
+                <div>
+                  <span className="font-semibold text-fg">{r.name}</span>
+                  {r.dish && <span className="text-xs text-amber font-medium ml-2">"{r.dish}"</span>}
+                  <span className="text-xs text-fg-muted ml-2">{[r.location, r.city].filter(Boolean).join(', ')}</span>
+                </div>
+                {r.description && <p className="text-xs text-fg-dim mt-0.5 truncate">{r.description}</p>}
               </div>
               {confirmDelete === r.id ? (
                 <div className="flex items-center gap-2 shrink-0">

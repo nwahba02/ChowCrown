@@ -19,11 +19,11 @@ async function seed() {
 
   // Restaurants
   const restaurantDefs = [
-    { name: 'Goldburger', dish: 'The Gold Standard', location: 'West Hollywood', image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Burgerlords', dish: 'Classic Smash', location: 'Chinatown', image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Mírate', dish: 'Birria Burger', location: 'Los Feliz', image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Bossa Nova Burger Bar', dish: 'Brazilian BBQ Burger', location: 'Silver Lake', image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=400&q=80' },
-    { name: 'Irv\'s Burgers', dish: 'Irv\'s Original', location: 'West Hollywood', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Goldburger', dish: 'The Gold Standard', location: 'West Hollywood', city: 'Los Angeles', description: 'A double smash patty with aged cheddar and a 24-hour brioche bun.', image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Burgerlords', dish: 'Classic Smash', location: 'Chinatown', city: 'Los Angeles', description: 'Griddle-smashed patty, American cheese, shredded lettuce, and burger sauce.', image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Mírate', dish: 'Birria Burger', location: 'Los Feliz', city: 'Los Angeles', description: 'A birria-braised beef patty dipped in consomé, topped with melted Oaxaca cheese.', image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Bossa Nova Burger Bar', dish: 'Brazilian BBQ Burger', location: 'Silver Lake', city: 'Los Angeles', description: 'Char-grilled patty with Brazilian BBQ sauce, grilled pineapple, and crispy onions.', image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=400&q=80' },
+    { name: 'Irv\'s Burgers', dish: 'Irv\'s Original', location: 'West Hollywood', city: 'Los Angeles', description: 'An old-school diner smash burger, grilled onions, and a secret sauce recipe from 1980.', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80' },
   ];
 
   const restaurants = [];
