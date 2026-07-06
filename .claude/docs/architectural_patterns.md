@@ -2,10 +2,11 @@
 
 ## Routing / Page Management
 
-No router library. `App.tsx` holds `activePage` state and renders different page components conditionally. Page-changing callbacks are passed as props.
+Uses React Router (`react-router-dom`). Routes are declared with `<Routes>/<Route>` inside `AppInner` at the bottom of `src/App.tsx`. Navigation uses `useNavigate()`.
 
-- Navigation state: `src/App.tsx` (top-level `useState`)
-- Bottom nav uses `layoutId` shared animation to animate the active indicator between tabs
+- A `setActivePage(page: string)` helper still exists in `AppInner` — it maps page name strings to paths and calls `navigate()`. Some older components use it instead of `useNavigate()` directly.
+- `ScrollToTopOnNav` is a side-effect component that calls `window.scrollTo(0,0)` on every pathname change.
+- Bottom nav uses `layoutId` shared animation to animate the active indicator between tabs.
 
 ## UI Component Pattern
 
