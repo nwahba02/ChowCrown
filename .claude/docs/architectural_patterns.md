@@ -6,7 +6,6 @@ Uses React Router (`react-router-dom`). Routes are declared with `<Routes>/<Rout
 
 - A `setActivePage(page: string)` helper still exists in `AppInner` — it maps page name strings to paths and calls `navigate()`. Some older components use it instead of `useNavigate()` directly.
 - `ScrollToTopOnNav` is a side-effect component that calls `window.scrollTo(0,0)` on every pathname change.
-- Bottom nav uses `layoutId` shared animation to animate the active indicator between tabs.
 
 ## UI Component Pattern
 
@@ -37,7 +36,17 @@ Reference: `src/utils/animations.ts`, `src/hooks/useAnimation.ts`
 
 `useResponsive()` (`src/hooks/useResponsive.ts`) returns `{ isMobile, isTablet, isDesktop }` booleans derived from `window.matchMedia`. Use this for conditional rendering of entirely different layouts; use Tailwind responsive prefixes (`sm:`, `md:`, `lg:`) for CSS-only differences.
 
-`BottomNav` is rendered only on mobile. The top `Navbar` collapses to a hamburger on mobile.
+The top `Navbar` (defined inline in `src/App.tsx`, `fixed`, `h-[68px]`) collapses to a hamburger on mobile. `BottomNav` (`src/components/layout/BottomNav.tsx`) is dead code — exported from the layout barrel but not rendered anywhere; don't assume it's live without checking.
+
+## Hero Banner Images at a Fixed Aspect Ratio
+
+Competition hero banners (`CompetitionDetailsPage`) render into a fixed box (`aspect-[4/3] sm:aspect-[16/7] md:aspect-[3/1]`) that's much wider than most source photos (~3:2). Plain `object-cover` would crop out roughly half the photo's height to fill that box; plain `object-contain` avoids cropping but leaves flat empty bars on the sides.
+
+The pattern used instead: stack two copies of the same `<img>` absolutely inside the box —
+1. A background copy: `object-cover scale-110 blur-2xl` (fills the whole box, blurred, so it doesn't need to look sharp)
+2. A foreground copy: `object-contain scale-150` (the real photo, uncropped, scaled up until it fills most of the width — the `scale-150` factor is a manually-tuned tradeoff between "no crop" and "no visible side padding", not a formula — re-tune by eye if the aspect box or typical photo shape changes)
+
+A `bg-gradient-to-t from-black/75 via-black/30 to-black/10` overlay sits on top of both for text legibility. Reference: `src/App.tsx`, `CompetitionDetailsPage` banner section.
 
 ## Styling System
 

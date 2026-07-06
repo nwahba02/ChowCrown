@@ -71,7 +71,12 @@
       "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-zoomout-desktop.png\")",
       "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-contain.png\")",
       "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-blurbg.png\")",
-      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-wider.png\")"
+      "Bash(npx --yes playwright screenshot -b chromium --wait-for-timeout 2500 \"http://localhost:3000/competitions/17fe8ec3-3c4a-4532-bd02-d4cdf97b0c21\" \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\199609ba-d185-40dd-8e7a-72ed7dc9a11c\\\\scratchpad\\\\banner-wider.png\")",
+      "Bash(grep -n \"RESEND\\\\|GMAIL\\\\|resend\\\\|nodemailer\" server/routes/contact.ts)",
+      "Bash(grep -rn \"RESEND\\\\|GMAIL\" server/*.ts server/routes/*.ts .env.example)",
+      "Bash(grep -c \"^RESEND_API_KEY\" .env)",
+      "Bash(grep -c \"^GMAIL_USER\\\\|^GMAIL_APP_PASSWORD\" .env)",
+      "Bash(npm ls *)"
     ]
   }
 }

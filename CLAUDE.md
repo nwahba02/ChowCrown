@@ -80,7 +80,9 @@ server/
 
 **Admin protection:** All `/api/admin/*` routes and token-generation endpoints check `x-admin-key` header against `ADMIN_KEY` env var. In production (`NODE_ENV=production`), `ADMIN_KEY` is **required** — the server refuses to start without it.
 
-**Contact form:** `POST /api/contact` saves the submission to MongoDB then fires a Gmail notification email as a background task (fire-and-forget with `.catch()` logging). The HTTP response is sent immediately after the DB write — the email must not block the request because Railway blocks outbound SMTP.
+**Restaurant fields:** `name`, `dish`, `location` (neighborhood/address), `city`, `description` (short blurb about the dish), `image` (plain URL string — no upload pipeline exists; the admin pastes a link to an already-hosted photo), `competitionId`, `active`. The admin UI (`AdminRestaurantsTab` in `src/App.tsx`) only supports **add and delete** — there is no in-place edit form, even though `PATCH /api/admin/restaurants/:id` supports partial updates to every field.
+
+**Contact form:** `POST /api/contact` saves the submission to MongoDB then fires a Resend notification email as a background task (fire-and-forget with `.catch()` logging). The HTTP response is sent immediately after the DB write — the email must not block the request because Railway blocks outbound SMTP. Recipient is hardcoded to `thechowcrown@gmail.com` in `server/routes/contact.ts`. If `RESEND_API_KEY` is unset, the email is silently skipped (warning logged) — the DB write still succeeds.
 
 **Leaderboard caching:** `GET /api/competitions/:id/results` is cached in memory for 30 seconds. Cache is invalidated on each new vote via `cacheInvalidate()`. Stats endpoint is cached for 60 seconds.
 
@@ -95,8 +97,7 @@ Copy `.env.example` → `.env`:
 - `APP_URL` — written into generated QR code URLs (e.g. `https://yourapp.com`)
 - `ADMIN_KEY` — **required in production**; protects token generation and all `/api/admin/*` endpoints
 - `API_PORT` — defaults to 3001 (Railway overrides with `PORT`)
-- `GMAIL_USER` — Gmail address used as the sender for contact form emails (optional; email silently skipped if unset)
-- `GMAIL_APP_PASSWORD` — Gmail App Password (not your account password) for nodemailer auth
+- `RESEND_API_KEY` — Resend API key used to send contact-form notification emails (optional; email silently skipped if unset)
 - `GEMINI_API_KEY` — AI features (frontend)
 
 Frontend env vars must also be added to `vite.config.ts:define` to reach the browser bundle.
@@ -107,13 +108,24 @@ Hosted on Railway. Railway sets `PORT` automatically; the server reads `process.
 
 ## UI Components & Styling
 
-Reusable primitives (`Button`, `Card`, `Badge`, `Input`, `Modal`, `Toast`, `Loading`, `ErrorBoundary`) live in `src/components/ui/`, barrel-exported from the index. Layout components (`ScrollToTop`, `BottomNav`, `Navbar`) are in `src/components/layout/`. Always import from the barrel, not the file directly.
+Reusable primitives (`Button`, `Card`, `Badge`, `Input`, `Modal`, `Toast`, `Loading`, `ErrorBoundary`) live in `src/components/ui/`, barrel-exported from the index. `ScrollToTop` lives in `src/components/layout/` and is barrel-exported — always import from the barrel, not the file directly. **`Navbar` is defined directly inside `src/App.tsx`** (not in `src/components/layout/`, despite what you'd expect) — it's the `fixed` top nav, `68px` tall (`h-[68px]`). `BottomNav` also exists in `src/components/layout/` but is **dead code** — it's exported from the barrel but never imported/rendered anywhere in the app (a leftover from before the React Router migration).
+
+**Fixed-header offset:** because `Navbar` is `position: fixed`, every page must push its own content down to clear it — the established convention is `pt-20 md:pt-24` on the page's outer wrapper (see `CompetitionsPage`). If a page instead applies the offset as `margin-top` on an inner element, make sure the value is large enough to fully clear 68px on all breakpoints — a mismatched `md:mt-6` here previously caused the competition hero banner to render partially behind the header.
 
 Design tokens (brand colors, fluid typography, safe-area insets) are in `src/index.css` under `@theme` — not in a Tailwind config file.
 
 Animation variants (`fadeInUp`, `staggerContainer`, `slideInLeft`, etc.) live in `src/utils/animations.ts`. Import and spread them onto `motion.*` components instead of defining inline variants. Scroll-triggered animations use `useScrollAnimation` from `src/hooks/useAnimation.ts`.
 
 `useResponsive()` (`src/hooks/useResponsive.ts`) returns `{ isMobile, isTablet, isDesktop }`. Use it for conditional rendering of entirely different layouts; use Tailwind responsive prefixes for CSS-only differences.
+
+## Development Notes (Windows)
+
+This project is developed on Windows via Git Bash. `pkill -f "<pattern>"` against a background `npm run dev` / `npm run server` process **frequently fails silently** (exits without error but the process survives) — npm/Vite/tsx spawn real Win32 `node.exe` processes that Git Bash's process matching doesn't reliably reach. This previously left orphaned dev servers bound to ports 3000/3001 for hours after a session ended, which then blocked a later `npm run dev`/`npm run server` from starting cleanly. To actually kill them, find the PID with PowerShell and stop it directly:
+
+```powershell
+Get-NetTCPConnection -LocalPort 3000,3001 -State Listen | Select-Object LocalPort, OwningProcess
+Stop-Process -Id <pid> -Force
+```
 
 ## Additional Documentation
 
