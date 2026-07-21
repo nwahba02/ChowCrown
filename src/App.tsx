@@ -272,7 +272,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
   }, []);
 
   const showcaseComps = [
-    { name: 'Burger Crown', category: 'Burgers', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80', status: 'live' as const },
+    { name: 'Burger Crown', category: 'Burgers', image: 'https://images.pexels.com/photos/10761390/pexels-photo-10761390.jpeg?auto=compress&cs=tinysrgb&w=1600', status: 'live' as const },
     { name: 'Pizza Crown', category: 'Pizza', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80', status: 'soon' as const, eta: 'Q3 2026' },
     { name: 'Taco Crown', category: 'Tacos', image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80', status: 'soon' as const, eta: 'Q4 2026' },
     { name: 'Dessert Crown', category: 'Desserts', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80', status: 'soon' as const, eta: 'Q4 2026' },
@@ -453,7 +453,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
             </button>
           </div>
 
-          {/* Live competition — cinematic banner */}
+          {/* Live competition — featured card (shorter than the old full-bleed banner) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -463,7 +463,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
             onClick={() => setActivePage('competitions')}
           >
             <div className="rounded-2xl overflow-hidden border border-black/[0.06]">
-              <div className="overflow-hidden aspect-[4/3] sm:aspect-[21/8]">
+              <div className="overflow-hidden aspect-[16/9] sm:aspect-[21/9]">
                 <img
                   src={liveComp.image}
                   alt={`${liveComp.name} — the live competition dish`}
@@ -471,9 +471,9 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
                   loading="lazy"
                 />
               </div>
-              <div className="bg-card px-5 sm:px-7 py-4 sm:py-5 flex items-center justify-between gap-6">
+              <div className="bg-card px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-6">
                 <div>
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-center gap-3 mb-1.5">
                     <span className="inline-flex items-center gap-1.5 bg-live/[0.12] border border-live/[0.25] text-live text-[11px] font-bold px-2.5 py-1 rounded-full">
                       <span className="w-1.5 h-1.5 rounded-full bg-live live-dot" />
                       Live Now
@@ -482,7 +482,7 @@ const LandingPage = ({ setActivePage }: { setActivePage: (p: string) => void }) 
                   </div>
                   <h3
                     className="font-display font-bold text-fg leading-tight"
-                    style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}
+                    style={{ fontSize: 'clamp(1.25rem, 2.4vw, 1.75rem)' }}
                   >
                     {liveComp.name}
                   </h3>
@@ -831,8 +831,8 @@ const CompetitionsPage = () => {
                     <span className="bg-page/80 backdrop-blur-sm text-fg text-xs font-semibold px-2.5 py-1 rounded-full border border-black/[0.10]">
                       {comp.category}
                     </span>
-                    <span className="inline-flex items-center gap-1.5 bg-live/[0.15] border border-live/[0.30] text-live text-[11px] font-bold px-2.5 py-1 rounded-full">
-                      <span className="w-1.5 h-1.5 rounded-full bg-live live-dot" />
+                    <span className="inline-flex items-center gap-1.5 bg-live text-white text-[11px] font-bold px-2.5 py-1 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white live-dot" />
                       Live
                     </span>
                   </div>
@@ -1665,8 +1665,6 @@ const VotingContent = ({
             variant="primary"
             size="lg"
             fullWidth
-            icon={Crown}
-            iconPosition="left"
           >
             {isSubmitting ? 'Submitting...' : 'Submit Score'}
           </Button>
@@ -1937,15 +1935,6 @@ const ContactPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Crown decoration row */}
-          <div className="flex items-center justify-center gap-6 mb-2">
-            <div className="w-10 h-px bg-amber/40" />
-            <div className="w-8 h-8 rounded-full bg-amber/10 flex items-center justify-center">
-              <Crown size={16} className="text-amber" strokeWidth={2} />
-            </div>
-            <div className="w-10 h-px bg-amber/40" />
-          </div>
-
           {/* Giant CONTACT */}
           <h1
             className="font-display font-bold text-amber leading-none tracking-tight"
@@ -2527,7 +2516,7 @@ const JoinPage = ({ setActivePage }: { setActivePage: (p: string) => void }) => 
   }, []);
 
   return (
-    <div className="pt-20 md:pt-24 pb-24 md:pb-16">
+    <div className="pt-20 md:pt-24">
       {/* Header */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14 mb-16 md:mb-20 border-b border-black/[0.07] pb-10 md:pb-14">
         <motion.div
