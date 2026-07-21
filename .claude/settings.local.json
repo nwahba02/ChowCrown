@@ -76,7 +76,15 @@
       "Bash(grep -rn \"RESEND\\\\|GMAIL\" server/*.ts server/routes/*.ts .env.example)",
       "Bash(grep -c \"^RESEND_API_KEY\" .env)",
       "Bash(grep -c \"^GMAIL_USER\\\\|^GMAIL_APP_PASSWORD\" .env)",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\nwahb\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Coding-Projects-ChowCrown\\\\de159e93-2b78-4fe8-b87d-3485f4931846\\\\scratchpad\\\\pw\")",
+      "Bash(npm init *)",
+      "Read(//d/Coding-Projects/ChowCrown/**)",
+      "Bash(powershell -c \"\\(Get-Item 'D:\\\\Coding-Projects\\\\ChowCrown\\\\src\\\\App.tsx'\\).LastWriteTime\")",
+      "Bash(gh api *)",
+      "Bash(git revert *)",
+      "Bash(git stash *)"
     ]
   }
 }
